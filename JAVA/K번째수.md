@@ -1,3 +1,4 @@
+https://programmers.co.kr/learn/courses/30/lessons/12928?language=java
 - 자른 숫자열을 정렬하여 그것의 K번째 수를 골라내기
 ```java
 import java.util.Arrays;
