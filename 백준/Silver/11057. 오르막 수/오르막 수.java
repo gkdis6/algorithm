@@ -15,13 +15,12 @@ public class Main {
 
         for(int k = 1; k<n+1; k++) {
             for (int i = 0; i < 10; i++) {
-                for (int j = i; j < 10; j++) {
-                    count[k][i] += count[k-1][j]%10007;
-                }
+                if(i-1 >= 0) count[k][i] += count[k][i-1]%10007;
+                count[k][i] += count[k-1][i]%10007;
             }
         }
 
-        System.out.println(count[n][0] % 10007);
+        System.out.println(count[n][9] % 10007);
     }
 
 }
