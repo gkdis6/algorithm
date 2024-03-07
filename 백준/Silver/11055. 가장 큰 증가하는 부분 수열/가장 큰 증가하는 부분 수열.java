@@ -15,7 +15,6 @@ public class Main{
         for(int i = 1; i<=n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-        dp[1] = arr[1];
         lis();
 
         int max = 0;
@@ -26,7 +25,7 @@ public class Main{
     }
 
     static void lis() {
-        for(int i = 2; i<=n; i++) {
+        for(int i = 1; i<=n; i++) {
             dp[i] = arr[i];
             for(int j = 1; j<i; j++) {
                 if(arr[j]<arr[i])
