@@ -3,61 +3,45 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
-public class Main
-{
-    static int N;
-    static int K;
-
-    static int visited[] = new int[100001];
-
-    public static void main(String[] args) throws IOException
-    {
+public class Main {
+    static boolean[] visited;
+    static int[] A;
+    static int N,M;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        A= new int[100001];
+        visited = new boolean[100001];
 
-        String input = br.readLine();
-        String[] inputs = input.split(" ");
-
-        N = Integer.valueOf(inputs[0]);
-        K = Integer.valueOf(inputs[1]);
-
-        int result = bfs(N);
-        System.out.println(result);
+        BFS(N);
+        System.out.println(A[M]);
     }
-
-    private static int  bfs(int node)
-    {
-        Queue<Integer> queue = new LinkedList<Integer>();
-
-        queue.add(node);
-        int index = node;
-        int n = 0;
-        visited[index] = 1;
-        while (queue.isEmpty() == false)
-        {
-            n = queue.remove();
-
-            if (n == K)
-            {
-                return visited[n]-1;
+    private static void BFS(int i) {
+        Queue<Integer> que = new LinkedList<>();
+        que.add(i);
+        visited[i] = true;
+        while(!que.isEmpty()) {
+            int now = que.poll();
+            if(now == M) return;
+            if(now-1 >= 0 && !visited[now-1]){
+                visited[now-1] = true;
+                A[now-1] = A[now]+1;
+                que.add(now-1);
             }
-
-            if (n-1>=0 && visited[n-1] == 0)
-            {
-                visited[n-1] = visited[n]+1;
-                queue.add(n-1);
+            if(now+1 <= 100000 && !visited[now+1]){
+                visited[now+1] = true;
+                A[now+1] = A[now]+1;
+                que.add(now+1);
             }
-            if (n+1 <= 100000 && visited[n+1] == 0)
-            {
-                visited[n+1] = visited[n]+1;
-                queue.add(n+1);
-            }
-            if (2*n <= 100000 && visited[2*n] == 0)
-            {
-                visited[2*n] = visited[n] + 1;
-                queue.add(2*n);
+            if(2*now <= 100000 && !visited[2*now]){
+                visited[2*now] = true;
+                A[2*now] = A[now]+1;
+                que.add(2*now);
             }
         }
-        return -1;
     }
 }
