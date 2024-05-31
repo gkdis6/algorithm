@@ -19,7 +19,9 @@ public class Main {
         if(m == 1) return n % k;
         long cur = sq(n, m/2);
 
-        if(m % 2 == 1) return (cur * cur % k) * n % k;
-        return cur * cur % k;
+        return (cur * cur % k) * (long) (Math.pow(n, m%2)) % k;
+
+//        if(m % 2 == 1) return (cur * cur % k) * n % k;
+//        return cur * cur % k;
     }
 }
