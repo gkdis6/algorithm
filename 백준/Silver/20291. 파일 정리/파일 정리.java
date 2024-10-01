@@ -6,26 +6,24 @@ public class Main {
     static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
     static int n;
-    static PriorityQueue<String> pq = new PriorityQueue<>();
 
     public static void main(String[] args) throws IOException{
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
-
+        Map<String, Integer> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
         for(int i=0;i<n;i++){
             st = new StringTokenizer(br.readLine(),".");
             st.nextToken();
-            pq.add(st.nextToken());
+            String extension = st.nextToken();
+            if(!map.containsKey(extension)) list.add(extension);
+            map.put(extension, map.getOrDefault(extension, 0) + 1);
         }
-        while(pq.size()>0){
-            String cur = pq.poll();
-            int count = 1;
-            while(cur.equals(pq.peek())){
-                pq.poll();
-                count++;
-            }
-            System.out.println(cur + " " + count);
+        Collections.sort(list);
+        for(String extension : list){
+            sb.append(extension + " " + map.get(extension)+"\n");
         }
+        System.out.println(sb.toString());
     }
 }
 
