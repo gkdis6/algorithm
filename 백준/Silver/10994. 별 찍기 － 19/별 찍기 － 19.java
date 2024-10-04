@@ -6,7 +6,7 @@ public class Main {
     static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
     static int n,m;
-    static boolean[][] list;
+    static String[][] list;
 
     public static void main(String[] args) throws IOException{
         st = new StringTokenizer(br.readLine());
@@ -14,15 +14,17 @@ public class Main {
 
         m = 4*n-3;
 
-        list = new boolean[m][m];
+        list = new String[m][m];
+        for(int i=0;i<m;i++){
+            Arrays.fill(list[i]," ");
+        }
         for(int i=0;i<=m/2;i+=2){
             square(i);
         }
 
         for(int i=0;i<m;i++){
             for(int j=0;j<m;j++){
-                if(list[i][j]) System.out.print("*");
-                else System.out.print(" ");
+                System.out.print(list[i][j]);
             }
             System.out.println();
         }
@@ -30,10 +32,7 @@ public class Main {
 
     private static void square(int l) {
         for(int i=l; i<m-l; i++) {
-            list[i][l] = true;
-            list[l][i] = true;
-            list[i][m-1-l] = true;
-            list[m-1-l][i] = true;
+            list[i][l] = list[l][i] = list[i][m-1-l] = list[m-1-l][i] = "*";
         }
     }
 }
