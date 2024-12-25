@@ -8,7 +8,7 @@ def solution(operations):
         elif operation[0] == 'D':
             if len(q) == 0: continue
             elif operation[2:] == '-1':
-                print(heapq.heappop(q))
+                heapq.heappop(q)
             else:
                 largest = heapq.nlargest(1, q)[0]
                 q.remove(largest)
