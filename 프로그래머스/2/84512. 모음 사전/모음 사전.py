@@ -1,15 +1,11 @@
-from itertools import permutations
+# from itertools import permutations
+from itertools import product
 
 def solution(word):
     words = 'AEIOU'*5
-    unique_words = set()
-    
+    list = []
     for i in range(1, 6):
-        perms = permutations(words, i)
-
-        for perm in perms:
-            new_word = (''.join(perm))
-            unique_words.add(new_word)
-    # print(sorted(list(unique_words)))
-    return sorted(list(unique_words)).index(word)+1
+        for j in product(['A','E','I','O','U'], repeat=i):
+            list.append("".join(j))
+    return sorted(list).index(word)+1
     
