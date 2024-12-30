@@ -1,22 +1,22 @@
+import collections
+
 def solution(n, results):
-    graph = [[0] * (n + 1) for _ in range(n + 1)]
+    win = collections.defaultdict(set)
+    lose = collections.defaultdict(set)
     
     for winner, loser in results:
-        graph[winner][loser] = 1  # 승리
-        graph[loser][winner] = -1  # 패배
-
-    for k in range(1, n + 1):  # 중간 노드
-        for i in range(1, n + 1):  # 출발 노드
-            for j in range(1, n + 1):  # 도착 노드
-                if graph[i][k] == 1 and graph[k][j] == 1:
-                    graph[i][j] = 1
-                elif graph[i][k] == -1 and graph[k][j] == -1:
-                    graph[i][j] = -1
-
+        win[winner].add(loser)
+        lose[loser].add(winner)
+    
+    for i in range(1, n + 1):
+        for winner in lose[i]:
+            win[winner].update(win[i])  # 이긴 사람의 패배자 리스트 갱신
+        for loser in win[i]:
+            lose[loser].update(lose[i])  # 진 사람의 승리자 리스트 갱신
+    
     count = 0
     for i in range(1, n + 1):
-        known_results = sum(1 for j in range(1, n + 1) if graph[i][j] != 0)
-        if known_results == n - 1:
+        if len(set(win[i])) + len(set(lose[i])) == n - 1:  # 자신을 제외한 모든 플레이어와 연결된 경우
             count += 1
-
+    
     return count
