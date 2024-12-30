@@ -2,6 +2,7 @@ import itertools
 
 def solution(distance, rocks, n):
     rocks.sort()
+    rocks.append(distance)
     left,right = 0,distance
     while left <= right:
         mid = (left + right) // 2
@@ -13,8 +14,8 @@ def solution(distance, rocks, n):
             else:
                 min_distance = min(min_distance, rock-prev)
                 prev = rock
-        if distance - prev < mid:
-            removed += 1
+        # if distance - prev < mid:
+        #     removed += 1
         if removed > n:
             right = mid -1
         else :
