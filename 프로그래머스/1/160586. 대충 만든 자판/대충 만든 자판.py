@@ -13,7 +13,7 @@ def solution(keymap, targets):
         for word in target:
             if word not in char_to_min_index:
                 cur = -1
-                break
+                break 
             cur += char_to_min_index[word]
         result.append(cur)
     
