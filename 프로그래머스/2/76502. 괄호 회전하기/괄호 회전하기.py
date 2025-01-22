@@ -23,9 +23,7 @@ def solution(s):
                 return False
         return len(stack) == 0
     
-    arr = deque()
-    for i in s:
-        arr.append(i)
+    arr = deque(list(s))
     for _ in range(len(s)):
         arr.rotate(1)
         if isValid(arr):
