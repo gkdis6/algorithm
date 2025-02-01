@@ -1,17 +1,12 @@
 def solution(enroll, referral, seller, amount):
-    amounts = {who:0 for who in enroll}
     parent = dict(zip(enroll,referral))
-    parent['-'] = ''
-    amounts['-'] = 0
+    amounts = {who:0 for who in enroll}
+    
     for who, income in zip(seller,amount):
         income = income*100
-        while who != '':
-            if income < 10:
-                amounts[who] += income
-                break
-            amounts[who] += (income - income//10)
-            income = income//10
+        while income > 0 and who != '-':
+            amounts[who] += income - income//10
             who = parent[who]
+            income //= 10
             
-    answer = [amounts[i] for i in enroll]
-    return answer
+    return [amounts[i] for i in enroll]
