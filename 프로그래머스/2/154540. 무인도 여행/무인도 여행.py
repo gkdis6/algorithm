@@ -1,5 +1,4 @@
-import sys
-sys.setrecursionlimit(10**6)
+import collections
 
 def solution(maps):
     n = len(maps)
@@ -7,21 +6,22 @@ def solution(maps):
     answer = []
     
     visited = [[False] * m for _ in range(n)]
+    q = collections.deque()
     
-    def dfs(r, c):
-        if r < 0 or r >= n or c < 0 or c >= m:
-            return 0
-        if visited[r][c] or maps[r][c] == 'X':
-            return 0
-        visited[r][c] = True
-        total = int(maps[r][c])
-        for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            total += dfs(r + dr, c + dc)
-        return total
-
     for i in range(n):
         for j in range(m):
-            if not visited[i][j] and maps[i][j] != 'X':
-                answer.append(dfs(i, j))
-    
+            if maps[i][j] == 'X' or visited[i][j]:
+                continue
+            q.append((i,j))
+            visited[i][j] = True
+            food = int(maps[i][j])
+            while q:
+                y,x = q.popleft()
+                for dy, dx in [(1,0), (0,1), (-1,0), (0,-1)]:
+                    ny, nx = y+dy, x+dx
+                    if 0<=ny<n and 0<=nx<m and not visited[ny][nx] and maps[ny][nx] != 'X':
+                        q.append((ny,nx))
+                        visited[ny][nx] = True
+                        food += int(maps[ny][nx])
+            answer.append(food)
     return sorted(answer) if answer else [-1]
