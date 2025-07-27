@@ -14,7 +14,7 @@ class Main {
             int diff = M - N;
             int k = (int) Math.sqrt(diff);
             
-            if(k * k == diff) {
+            if(diff <= k * k) {
                 System.out.println(2 * k - 1);
             } else if(diff <= k * k + k) {
                 System.out.println(2 * k);
