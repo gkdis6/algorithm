@@ -55,6 +55,8 @@ class DP_Template {
     }
     
     // 2차원 DP - 배낭 문제
+    // Time Complexity: O(n * capacity) where n is number of items
+    // Space Complexity: O(n * capacity) for dp array
     static void knapsackExample() throws IOException {
         int n = Integer.parseInt(br.readLine());
         int capacity = Integer.parseInt(br.readLine());
@@ -70,12 +72,13 @@ class DP_Template {
         
         int[][] dp = new int[n + 1][capacity + 1];
         
+        // Fill dp table - O(n * capacity)
         for (int i = 1; i <= n; i++) {
             for (int w = 1; w <= capacity; w++) {
                 if (weights[i] <= w) {
-                    dp[i][w] = Math.max(dp[i-1][w], dp[i-1][w-weights[i]] + values[i]);
+                    dp[i][w] = Math.max(dp[i-1][w], dp[i-1][w-weights[i]] + values[i]); // O(1)
                 } else {
-                    dp[i][w] = dp[i-1][w];
+                    dp[i][w] = dp[i-1][w];  // O(1)
                 }
             }
         }

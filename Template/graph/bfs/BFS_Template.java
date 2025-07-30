@@ -35,48 +35,54 @@ class BFS_Template {
     }
     
     // 기본 BFS 탐색
+    // Time Complexity: O(V + E) where V is vertices and E is edges
+    // Space Complexity: O(V) for queue and visited arrays
     static void bfs(int start) {
         Queue<Integer> queue = new LinkedList<>();
         visited[start] = true;
         distance[start] = 0;
-        queue.offer(start);
+        queue.offer(start);         // O(1)
         
         while (!queue.isEmpty()) {
-            int node = queue.poll();
+            int node = queue.poll();    // O(1)
             System.out.print(node + " ");
             
+            // Visit all adjacent vertices
             for (int neighbor : graph.get(node)) {
                 if (!visited[neighbor]) {
                     visited[neighbor] = true;
                     distance[neighbor] = distance[node] + 1;
-                    queue.offer(neighbor);
+                    queue.offer(neighbor);  // O(1)
                 }
             }
         }
     }
     
     // 최단 거리 찾기
+    // Time Complexity: O(V + E) where V is vertices and E is edges
+    // Space Complexity: O(V) for queue and visited arrays
     static int bfsShortestPath(int start, int target) {
         Queue<Integer> queue = new LinkedList<>();
-        Arrays.fill(visited, false);
-        Arrays.fill(distance, -1);
+        Arrays.fill(visited, false);    // O(V)
+        Arrays.fill(distance, -1);      // O(V)
         
         visited[start] = true;
         distance[start] = 0;
-        queue.offer(start);
+        queue.offer(start);             // O(1)
         
         while (!queue.isEmpty()) {
-            int node = queue.poll();
+            int node = queue.poll();    // O(1)
             
             if (node == target) {
                 return distance[node];
             }
             
+            // Visit all adjacent vertices
             for (int neighbor : graph.get(node)) {
                 if (!visited[neighbor]) {
                     visited[neighbor] = true;
                     distance[neighbor] = distance[node] + 1;
-                    queue.offer(neighbor);
+                    queue.offer(neighbor);  // O(1)
                 }
             }
         }
