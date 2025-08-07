@@ -37,65 +37,59 @@ class Main {
     private static boolean isValidRemoval(boolean[][] map, int removeI, int removeJ, int N) {
         map[removeI][removeJ] = false;
         
-        if (!isConnected(map, N)) {
-            map[removeI][removeJ] = true;
-            return false;
-        }
-        
-        int nodes = 0;
-        int edges = 0;
-        
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++) {
-                if(!map[i][j]) continue;
-                nodes++;
-                
-                for(int d = 0; d < 4; d++) {
-                    int ni = i + dx[d];
-                    int nj = j + dy[d];
-                    
-                    if(ni >= 0 && ni < N && nj >= 0 && nj < N && map[ni][nj]) {
-                        if(i < ni || (i == ni && j < nj)) {
-                            edges++;
-                        }
-                    }
-                }
-            }
-        }
-        
-        boolean result = (edges == nodes - 1);
+        boolean result = isTree(map, N);
         
         map[removeI][removeJ] = true;
         return result;
     }
     
-    private static boolean isConnected(boolean[][] map, int N) {
+    private static boolean isTree(boolean[][] map, int N) {
         boolean[][] visited = new boolean[N][N];
-        int components = 0;
+        int startI = -1, startJ = -1;
+        
+        for(int i = 0; i < N && startI == -1; i++) {
+            for(int j = 0; j < N && startJ == -1; j++) {
+                if(map[i][j]) {
+                    startI = i;
+                    startJ = j;
+                }
+            }
+        }
+        
+        if(startI == -1) return false;
+        
+        if(hasCycle(map, visited, startI, startJ, -1, -1, N)) {
+            return false;
+        }
         
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
                 if(map[i][j] && !visited[i][j]) {
-                    dfs(map, visited, i, j, N);
-                    components++;
-                    if(components > 1) return false;
+                    return false;
                 }
             }
         }
-        return components == 1;
+        
+        return true;
     }
     
-    private static void dfs(boolean[][] map, boolean[][] visited, int i, int j, int N) {
+    private static boolean hasCycle(boolean[][] map, boolean[][] visited, int i, int j, int parentI, int parentJ, int N) {
         visited[i][j] = true;
         
         for(int d = 0; d < 4; d++) {
             int ni = i + dx[d];
             int nj = j + dy[d];
             
-            if(ni >= 0 && ni < N && nj >= 0 && nj < N && 
-               map[ni][nj] && !visited[ni][nj]) {
-                dfs(map, visited, ni, nj, N);
+            if(ni >= 0 && ni < N && nj >= 0 && nj < N && map[ni][nj]) {
+                if(ni == parentI && nj == parentJ) continue;
+                
+                if(visited[ni][nj] || hasCycle(map, visited, ni, nj, i, j, N)) {
+                    return true;
+                }
             }
         }
+        
+        return false;
     }
+    
 }
